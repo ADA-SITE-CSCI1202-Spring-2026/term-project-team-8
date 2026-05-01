@@ -2,6 +2,7 @@ package aresbase.engine;
 
 import aresbase.model.*;
 import aresbase.processor.*;
+import java.io.IOException;
 import java.util.*;
 
 public class SimulationEngine {
@@ -54,5 +55,23 @@ public class SimulationEngine {
         }
         resourceManager.restock(res, amount);
         return "Synthesized +" + amount + res.unit + " " + res.label + ". -credit" + cost;
+    }
+
+    public String saveState() {
+        try {
+            SaveLoadManager.save(resourceManager, taskQueue);
+            return "OK: State saved to saves/colony_save.csv";
+        } catch (IOException e) {
+            return "ERROR: Save failed — " + e.getMessage();
+        }
+    }
+
+    public String loadState() {
+        try {
+            SaveLoadManager.load(resourceManager, taskQueue);
+            return "OK: State loaded from saves/colony_save.csv";
+        } catch (IOException e) {
+            return "ERROR: Load failed — " + e.getMessage();
+        }
     }
 }
