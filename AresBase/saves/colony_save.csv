@@ -1,0 +1,24 @@
+CREDITS,730
+RESOURCE,OXYGEN,90
+RESOURCE,RATIONS,27
+RESOURCE,SPARE_PARTS,20
+RESOURCE,POWER,110
+TASK,ResearchTask,Med Bay Diagnostic,40,MedicalWard,POWER:15|RATIONS:3
+TASK,ResearchTask,Hydroponics Check,35,MedicalWard,OXYGEN:5|RATIONS:10
+TASK,EngineeringTask,Comm Array Repair,55,EngineeringBay,SPARE_PARTS:1|POWER:20
+TASK,EngineeringTask,Comm Array Repair,55,EngineeringBay,SPARE_PARTS:1|POWER:20
+TASK,LifeSupportTask,O2 Scrubber Failure,80,EngineeringBay,OXYGEN:10|SPARE_PARTS:2
+TASK,LifeSupportTask,Hull Breach Deck C,100,EngineeringBay,SPARE_PARTS:3|POWER:10
+TASK,EngineeringTask,Water Recycler Leak,50,HydroponicsBay,SPARE_PARTS:1|RATIONS:5
+TASK,ResearchTask,Med Bay Diagnostic,40,MedicalWard,POWER:15|RATIONS:3
+TASK,EngineeringTask,Comm Array Repair,55,EngineeringBay,SPARE_PARTS:1|POWER:20
+TASK,LifeSupportTask,O2 Scrubber Failure,80,EngineeringBay,OXYGEN:10|SPARE_PARTS:2
+TASK,EngineeringTask,Water Recycler Leak,50,HydroponicsBay,SPARE_PARTS:1|RATIONS:5
+TASK,LifeSupportTask,Hull Breach Deck C,100,EngineeringBay,SPARE_PARTS:3|POWER:10
+TASK,LifeSupportTask,O2 Scrubber Failure,80,EngineeringBay,OXYGEN:10|SPARE_PARTS:2
+TASK,LifeSupportTask,Hull Breach Deck C,100,EngineeringBay,SPARE_PARTS:3|POWER:10
+TASK,LifeSupportTask,O2 Scrubber Failure,80,EngineeringBay,OXYGEN:10|SPARE_PARTS:2
+TASK,ResearchTask,Hydroponics Check,35,MedicalWard,OXYGEN:5|RATIONS:10
+TASK,ResearchTask,Med Bay Diagnostic,40,MedicalWard,POWER:15|RATIONS:3
+TASK,LifeSupportTask,O2 Scrubber Failure,80,EngineeringBay,OXYGEN:10|SPARE_PARTS:2
+TASK,LifeSupportTask,O2 Scrubber Failure,80,EngineeringBay,OXYGEN:10|SPARE_PARTS:2
