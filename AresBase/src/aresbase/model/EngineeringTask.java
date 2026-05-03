@@ -1,5 +1,6 @@
 package aresbase.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class EngineeringTask extends ColonyTask {
@@ -14,4 +15,9 @@ public class EngineeringTask extends ColonyTask {
 
     @Override
     public String getSeverity() { return "URGENT"; }
+
+    @Override
+    public ColonyTask copy() {
+        return new EngineeringTask(getName(), new HashMap<>(getRequirements()), getReward(), getProcessorType());
+    }
 }
