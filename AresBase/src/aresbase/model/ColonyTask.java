@@ -23,6 +23,7 @@ public abstract class ColonyTask {
 
     public abstract String getTaskType();
     public abstract String getSeverity();
+    public abstract ColonyTask copy();
 
     @Override
     public String toString() {
