@@ -27,18 +27,7 @@ public class TaskGenerator {
 
     public static ColonyTask generate() {
         ColonyTask[] templates = buildTemplates();
-        ColonyTask template = templates[rng.nextInt(templates.length)];
-
-        if (template instanceof LifeSupportTask) {
-            return new LifeSupportTask(template.getName(),
-                new HashMap<>(template.getRequirements()), template.getReward());
-        } else if (template instanceof ResearchTask) {
-            return new ResearchTask(template.getName(),
-                new HashMap<>(template.getRequirements()), template.getReward());
-        } else {
-            return new EngineeringTask(template.getName(),
-                new HashMap<>(template.getRequirements()),
-                template.getReward(), template.getProcessorType());
-        }
+        return templates[rng.nextInt(templates.length)].copy();
     }
+
 }
