@@ -17,6 +17,8 @@ mvn -version
 git clone <your-repo-url>
 cd term-project-team-8/AresBase
 
+## Make sure you are in AresBase folder when you run the project!
+
 ## Run
 
 mvn javafx:run
