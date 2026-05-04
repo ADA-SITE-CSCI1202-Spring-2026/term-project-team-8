@@ -22,24 +22,20 @@ public class TaskFilter<T extends ColonyTask> {
         this.source = source;
     }
 
-    /** Returns all tasks matching the given predicate. */
     public List<T> filter(Predicate<T> predicate) {
         return source.stream()
                 .filter(predicate)
                 .collect(Collectors.toList());
     }
 
-    /** Counts tasks matching the given predicate. */
     public long count(Predicate<T> predicate) {
         return source.stream().filter(predicate).count();
     }
 
-    /** Returns true if any task matches the predicate. */
     public boolean anyMatch(Predicate<T> predicate) {
         return source.stream().anyMatch(predicate);
     }
 
-    /** Returns the total credit reward of all matching tasks. */
     public int totalReward(Predicate<T> predicate) {
         return source.stream()
                 .filter(predicate)

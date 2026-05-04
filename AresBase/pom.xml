@@ -19,7 +19,6 @@
     </properties>
 
     <dependencies>
-        <!-- JavaFX – Maven downloads these automatically for every OS -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -33,12 +32,10 @@
     </dependencies>
 
     <build>
-        <!-- Tell Maven where your source files live -->
         <sourceDirectory>src</sourceDirectory>
 
         <plugins>
 
-            <!-- 1. Compiler plugin – enforce Java 17 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -49,7 +46,6 @@
                 </configuration>
             </plugin>
 
-            <!-- 2. JavaFX Maven plugin – "mvn javafx:run" works on every machine -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -59,8 +55,6 @@
                 </configuration>
             </plugin>
 
-            <!-- 3. Maven Shade plugin – builds a fat jar with JavaFX natives bundled -->
-            <!--    "mvn package" → target/ares-base-1.0.jar  (double-click or java -jar) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -73,7 +67,6 @@
                             <transformers>
                                 <transformer implementation=
                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <!-- JavaFX apps must launch via a non-Application main wrapper -->
                                     <mainClass>aresbase.Launcher</mainClass>
                                 </transformer>
                                 <transformer implementation=

@@ -2,6 +2,7 @@ package aresbase.ui;
 
 import aresbase.engine.*;
 import aresbase.model.*;
+import java.util.Random;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -17,11 +18,10 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.util.Random;
 
 public class DashboardController {
 
-    // ── Colors ───────────────────────────────────────────────────────────────
+    // ── Colors
     private static final String BG_DARK      = "#0a0a0a";
     private static final String BG_PANEL     = "#141414";
     private static final String BG_HOVER     = "#1e1e1e";
@@ -34,7 +34,7 @@ public class DashboardController {
     private static final String TEXT_SECONDARY = "#9e9e9e";
     private static final String MONO_FONT    = "monospace";
 
-    // ── State ─────────────────────────────────────────────────────────────────
+    // ── State 
     private final SimulationEngine engine = new SimulationEngine();
     private final ObservableList<String> queueItems = FXCollections.observableArrayList();
     private final TextArea logArea        = new TextArea();
@@ -44,7 +44,7 @@ public class DashboardController {
     private final Label    qDepthLabel    = new Label("0");
     private final Label    resolvedLabel  = new Label("0");
     private final Label    failedLabel    = new Label("0");
-    private final Label    criticalLabel  = new Label("0");   // live CRITICAL count via TaskFilter
+    private final Label    criticalLabel  = new Label("0");
     private final Circle   statusDot      = new Circle(4);
     private int secondsTick  = 0;
     private int resolvedCount = 0;
@@ -53,7 +53,6 @@ public class DashboardController {
     private ListView<String> queueListView;
     private BorderPane mainLayout;
 
-    // ─────────────────────────────────────────────────────────────────────────
     public void start(Stage stage) {
         stage.setTitle("ARES-I STATION COMMAND");
         stage.setScene(createScene());
@@ -78,7 +77,7 @@ public class DashboardController {
         return new Scene(mainLayout, 1024, 720);
     }
 
-    // ── HEADER ────────────────────────────────────────────────────────────────
+    // ── Header
     private HBox createHeader() {
         HBox header = new HBox(20);
         header.setPadding(new Insets(12, 20, 12, 20));
@@ -109,7 +108,7 @@ public class DashboardController {
         return header;
     }
 
-    // ── FOOTER ────────────────────────────────────────────────────────────────
+    // ── Footer 
     private HBox createFooter() {
         HBox footer = new HBox();
         footer.setPadding(new Insets(8, 20, 8, 20));
@@ -125,7 +124,7 @@ public class DashboardController {
         return footer;
     }
 
-    // ── STAT BAR ──────────────────────────────────────────────────────────────
+    // ── Stat Bar
     private HBox createStatBar() {
         HBox statBar = new HBox();
         statBar.setPadding(new Insets(8, 20, 8, 20));
@@ -136,7 +135,6 @@ public class DashboardController {
             createStatCard("QUEUE DEPTH",    qDepthLabel,   ACCENT_BLUE,  true),
             createStatCard("TASKS RESOLVED", resolvedLabel, ACCENT_GREEN, true),
             createStatCard("TASKS FAILED",   failedLabel,   ACCENT_RED,   true),
-            // TaskFilter<ColonyTask> used here to keep live CRITICAL count in the stat bar
             createStatCard("CRITICAL",       criticalLabel, ACCENT_RED,   true),
             createStatCard("BASE STATUS",    statusValue,   ACCENT_GREEN, false)
         );
@@ -159,7 +157,7 @@ public class DashboardController {
         return card;
     }
 
-    // ── MAIN CONTENT ──────────────────────────────────────────────────────────
+    // ── Main Content
     private SplitPane createMainContent() {
         SplitPane splitPane = new SplitPane();
         splitPane.setStyle("-fx-background-color: " + BG_DARK + ";");
@@ -185,7 +183,7 @@ public class DashboardController {
         return splitPane;
     }
 
-    // ── QUEUE PANEL ───────────────────────────────────────────────────────────
+    // ── Queue Panel
     private VBox createQueuePanel() {
         VBox panel = createPanel("INCOMING CRISIS QUEUE", ACCENT_RED);
 
@@ -232,7 +230,7 @@ public class DashboardController {
         return panel;
     }
 
-    // ── VITALS PANEL ──────────────────────────────────────────────────────────
+    // ── Vitals Panel
     private VBox createStatsPanel() {
         VBox panel = createPanel("COLONY RESOURCE VITALS", ACCENT_GREEN);
 
@@ -249,7 +247,7 @@ public class DashboardController {
         return panel;
     }
 
-    // ── SUPPLY PANEL ──────────────────────────────────────────────────────────
+    // ── Supply Panel
     private VBox createSupplyPanel() {
         VBox panel = createPanel("CARGO REPLICATOR", ACCENT_BLUE);
 
@@ -318,7 +316,7 @@ public class DashboardController {
         return panel;
     }
 
-    // ── LOG PANEL ─────────────────────────────────────────────────────────────
+    // ── Log Panel
     private VBox createLogPanel() {
         VBox panel = createPanel("SYSTEM LOG", ACCENT_AMBER);
 
@@ -342,7 +340,7 @@ public class DashboardController {
         return panel;
     }
 
-    // ── PANEL HELPER ──────────────────────────────────────────────────────────
+    // ── Panel Helper
     private VBox createPanel(String title, String accentColor) {
         VBox panel = new VBox(8);
         panel.setPadding(new Insets(12));
@@ -363,7 +361,7 @@ public class DashboardController {
         return panel;
     }
 
-    // ── SIMULATION ────────────────────────────────────────────────────────────
+    // ── Simulation
     private void initializeSimulation() {
         int[] nextIn = {2 + rng.nextInt(4)};
         Timeline clock = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
@@ -394,7 +392,7 @@ public class DashboardController {
         blink.play();
     }
 
-    // ── EXECUTE ───────────────────────────────────────────────────────────────
+    // ── Execute
     private void handleExecuteTask() {
         String result = engine.executeNext();
         if (result.startsWith("ERROR")) {
@@ -414,7 +412,7 @@ public class DashboardController {
         refreshVitals();
     }
 
-    // ── REFRESH ───────────────────────────────────────────────────────────────
+    // ── Refresh
     private void refreshQueue() {
         Platform.runLater(() -> {
             queueItems.clear();
@@ -429,7 +427,6 @@ public class DashboardController {
             });
             qDepthLabel.setText(String.valueOf(queueItems.size()));
 
-            // Use TaskFilter<ColonyTask> to count CRITICAL tasks without touching raw queue logic
             long criticalCount = engine.getQueueFilter()
                     .count(t -> t.getSeverity().equals("CRITICAL"));
             criticalLabel.setText(String.valueOf(criticalCount));
@@ -483,7 +480,7 @@ public class DashboardController {
         refreshVitals();
     }
 
-    // ── LOG ───────────────────────────────────────────────────────────────────
+    // ── Log
     private void log(String message, String type) {
         Platform.runLater(() -> {
             String timestamp = String.format("%06d", secondsTick);
@@ -498,7 +495,7 @@ public class DashboardController {
         });
     }
 
-    // ── HELPERS ───────────────────────────────────────────────────────────────
+    // ── Helpers
     private Label createLabel(String text, String color, int size, boolean bold) {
         Label label = new Label(text);
         label.setStyle(createTextStyle(color, size, bold));

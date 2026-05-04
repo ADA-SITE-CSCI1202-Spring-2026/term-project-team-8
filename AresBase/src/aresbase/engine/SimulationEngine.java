@@ -18,15 +18,10 @@ public class SimulationEngine {
  
     public void addTask(ColonyTask task) { taskQueue.addLast(task); }
  
-    /**
-     * Returns a TaskFilter over a snapshot of the current queue.
-     * Callers can query queue state without touching the raw Deque.
-     */
     public TaskFilter<ColonyTask> getQueueFilter() {
         return new TaskFilter<>(List.copyOf(taskQueue));
     }
  
-    /** Restock amounts live here — engine layer, not UI. */
     public int getRestockAmount(Resource res) {
         return switch (res) {
             case OXYGEN      -> 20;
@@ -44,7 +39,6 @@ public class SimulationEngine {
         if (!resourceManager.hasSufficient(task.getRequirements())) {
             taskQueue.addFirst(task);
  
-            // Stream to build the missing-resource message
             String missing = task.getRequirements().entrySet().stream()
                     .filter(e -> resourceManager.getAmount(e.getKey()) < e.getValue())
                     .map(e -> e.getKey().label)
@@ -57,7 +51,6 @@ public class SimulationEngine {
         resourceManager.consume(task.getRequirements());
         resourceManager.addCredits(task.getReward());
  
-        // Stream to find the first capable processor
         return processors.stream()
                 .filter(p -> p.canProcess(task))
                 .findFirst()

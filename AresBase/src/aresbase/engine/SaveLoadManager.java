@@ -12,15 +12,12 @@ public class SaveLoadManager {
         new File("saves").mkdirs();
         try (PrintWriter writer = new PrintWriter(new FileWriter("saves/" + SAVE_FILE))) {
 
-            // Line 1: credits
             writer.println("CREDITS," + resourceManager.getCredits());
 
-            // Lines 2-5: resources
             for (Resource r : Resource.values()) {
                 writer.println("RESOURCE," + r.name() + "," + resourceManager.getAmount(r));
             }
 
-            // Remaining lines: tasks in queue order
             for (ColonyTask task : queue) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("TASK,");
@@ -28,7 +25,6 @@ public class SaveLoadManager {
                 sb.append(task.getName()).append(",");
                 sb.append(task.getReward()).append(",");
                 sb.append(task.getProcessorType()).append(",");
-                // requirements: KEY:VAL|KEY:VAL
                 StringJoiner reqs = new StringJoiner("|");
                 task.getRequirements().forEach((res, amt) ->
                     reqs.add(res.name() + ":" + amt));
@@ -51,7 +47,6 @@ public class SaveLoadManager {
                 switch (parts[0]) {
                     case "CREDITS" -> {
                         int credits = Integer.parseInt(parts[1]);
-                        // Reset credits by spending all then adding correct amount
                         int current = resourceManager.getCredits();
                         if (current > 0) resourceManager.spendCredits(current);
                         resourceManager.addCredits(credits);

@@ -1,4 +1,3 @@
-#!/bin/bash
 BASE=~/Desktop/ADA/term-project-team-8/AresBase
 FX=/Users/fidankhalilova/Downloads/javafx-sdk-26/lib
 MODS=javafx.controls,javafx.fxml,javafx.base,javafx.graphics

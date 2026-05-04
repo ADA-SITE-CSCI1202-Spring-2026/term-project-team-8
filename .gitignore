@@ -1,3 +1,5 @@
 AresBase/out/
 AresBase/**/*.class
+AresBase/target/
+AresBase/saves/
 .DS_Store
