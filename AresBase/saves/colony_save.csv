@@ -1,9 +1,12 @@
-CREDITS,550
-RESOURCE,OXYGEN,75
-RESOURCE,RATIONS,52
-RESOURCE,SPARE_PARTS,23
-RESOURCE,POWER,165
+CREDITS,930
+RESOURCE,OXYGEN,70
+RESOURCE,RATIONS,17
+RESOURCE,SPARE_PARTS,20
+RESOURCE,POWER,35
+TASK,ResearchTask,Hydroponics Check,35,MedicalWard,OXYGEN:5|RATIONS:10
+TASK,ResearchTask,Med Bay Diagnostic,40,MedicalWard,RATIONS:3|POWER:15
 TASK,EngineeringTask,Solar Array Offline,60,EngineeringBay,SPARE_PARTS:2|POWER:5
-TASK,ResearchTask,Hydroponics Check,35,MedicalWard,RATIONS:10|OXYGEN:5
-TASK,EngineeringTask,Comm Array Repair,55,EngineeringBay,SPARE_PARTS:1|POWER:20
 TASK,LifeSupportTask,Hull Breach Deck C,100,EngineeringBay,SPARE_PARTS:3|POWER:10
+TASK,LifeSupportTask,Hull Breach Deck C,100,EngineeringBay,POWER:10|SPARE_PARTS:3
+TASK,EngineeringTask,Water Recycler Leak,50,HydroponicsBay,RATIONS:5|SPARE_PARTS:1
+TASK,ResearchTask,Med Bay Diagnostic,40,MedicalWard,RATIONS:3|POWER:15

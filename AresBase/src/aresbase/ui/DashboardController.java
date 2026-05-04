@@ -37,14 +37,15 @@ public class DashboardController {
     // ── State ─────────────────────────────────────────────────────────────────
     private final SimulationEngine engine = new SimulationEngine();
     private final ObservableList<String> queueItems = FXCollections.observableArrayList();
-    private final TextArea logArea       = new TextArea();
-    private final VBox     vitalsBox     = new VBox(8);
-    private final Label    creditsLabel  = new Label();
-    private final Label    clockLabel    = new Label("T+00:00:00");
-    private final Label    qDepthLabel   = new Label("0");
-    private final Label    resolvedLabel = new Label("0");
-    private final Label    failedLabel   = new Label("0");
-    private final Circle   statusDot     = new Circle(4);
+    private final TextArea logArea        = new TextArea();
+    private final VBox     vitalsBox      = new VBox(8);
+    private final Label    creditsLabel   = new Label();
+    private final Label    clockLabel     = new Label("T+00:00:00");
+    private final Label    qDepthLabel    = new Label("0");
+    private final Label    resolvedLabel  = new Label("0");
+    private final Label    failedLabel    = new Label("0");
+    private final Label    criticalLabel  = new Label("0");   // live CRITICAL count via TaskFilter
+    private final Circle   statusDot      = new Circle(4);
     private int secondsTick  = 0;
     private int resolvedCount = 0;
     private int failedCount   = 0;
@@ -135,6 +136,8 @@ public class DashboardController {
             createStatCard("QUEUE DEPTH",    qDepthLabel,   ACCENT_BLUE,  true),
             createStatCard("TASKS RESOLVED", resolvedLabel, ACCENT_GREEN, true),
             createStatCard("TASKS FAILED",   failedLabel,   ACCENT_RED,   true),
+            // TaskFilter<ColonyTask> used here to keep live CRITICAL count in the stat bar
+            createStatCard("CRITICAL",       criticalLabel, ACCENT_RED,   true),
             createStatCard("BASE STATUS",    statusValue,   ACCENT_GREEN, false)
         );
         return statBar;
@@ -162,7 +165,6 @@ public class DashboardController {
         splitPane.setStyle("-fx-background-color: " + BG_DARK + ";");
         splitPane.setDividerPositions(0.5);
 
-        // ── LEFT: build panels ONCE and reuse the same references ──
         VBox queuePanel  = createQueuePanel();
         VBox supplyPanel = createSupplyPanel();
 
@@ -171,7 +173,6 @@ public class DashboardController {
         leftSide.getChildren().addAll(queuePanel, supplyPanel);
         VBox.setVgrow(queuePanel, Priority.ALWAYS);
 
-        // ── RIGHT: build panels ONCE and reuse the same references ──
         VBox statsPanel = createStatsPanel();
         VBox logPanel   = createLogPanel();
 
@@ -267,9 +268,10 @@ public class DashboardController {
         );
 
         Label infoLabel = createLabel("Select resource to view cost", TEXT_SECONDARY, 9, false);
+
         resourceCombo.setOnAction(e -> {
             Resource r = resourceCombo.getValue();
-            int amt = getRestockAmount(r);
+            int amt = engine.getRestockAmount(r);
             infoLabel.setText("Synthesize +" + amt + r.unit + " "
                 + r.label.toUpperCase() + " — Cost: 50 CR");
         });
@@ -426,6 +428,11 @@ public class DashboardController {
                     task.getSeverity(), task.getName(), reqs));
             });
             qDepthLabel.setText(String.valueOf(queueItems.size()));
+
+            // Use TaskFilter<ColonyTask> to count CRITICAL tasks without touching raw queue logic
+            long criticalCount = engine.getQueueFilter()
+                    .count(t -> t.getSeverity().equals("CRITICAL"));
+            criticalLabel.setText(String.valueOf(criticalCount));
         });
     }
 
@@ -492,15 +499,6 @@ public class DashboardController {
     }
 
     // ── HELPERS ───────────────────────────────────────────────────────────────
-    private int getRestockAmount(Resource r) {
-        return switch (r) {
-            case OXYGEN      -> 20;
-            case RATIONS     -> 15;
-            case SPARE_PARTS -> 5;
-            case POWER       -> 40;
-        };
-    }
-
     private Label createLabel(String text, String color, int size, boolean bold) {
         Label label = new Label(text);
         label.setStyle(createTextStyle(color, size, bold));
