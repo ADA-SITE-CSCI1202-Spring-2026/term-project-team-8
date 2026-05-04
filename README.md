@@ -21,21 +21,125 @@ This project was developed as the term project for Programming Principles II, de
 ## 🛠️ Technologies Used
 
 - Java (OOP Principles)
-- JavaFX or Swing (GUI)
+- JavaFX (GUI)
 - Java Collections Framework (Queue, HashMap)
 - File I/O for state persistence
 - Lambda Expressions for event handling
+- Maven (build & dependency management)
 
 ## 📋 Prerequisites
 
-- Java JDK 11 or higher
-- JavaFX (if using JavaFX for GUI)
+You only need two things installed — **no manual JavaFX download required**. Maven handles everything automatically.
+
+| Requirement  | Version       | Download                              |
+| ------------ | ------------- | ------------------------------------- |
+| Java JDK     | 17 or higher  | https://adoptium.net                  |
+| Apache Maven | 3.8 or higher | https://maven.apache.org/download.cgi |
+
+To verify you have both installed, run:
+
+```bash
+java -version
+mvn -version
+```
+
+## 📁 Project Structure
+
+```
+term-project-team-8/
+└── AresBase/
+    ├── pom.xml                         ← Maven config (start here)
+    ├── src/
+    │   └── aresbase/
+    │       ├── Main.java
+    │       ├── Launcher.java
+    │       ├── engine/
+    │       │   ├── SimulationEngine.java
+    │       │   ├── TaskFilter.java
+    │       │   ├── TaskGenerator.java
+    │       │   └── SaveLoadManager.java
+    │       ├── model/
+    │       │   ├── ColonyTask.java
+    │       │   ├── LifeSupportTask.java
+    │       │   ├── EngineeringTask.java
+    │       │   ├── ResearchTask.java
+    │       │   ├── Resource.java
+    │       │   └── ResourceManager.java
+    │       ├── processor/
+    │       │   ├── IProcessor.java
+    │       │   ├── EngineeringBay.java
+    │       │   ├── MedicalWard.java
+    │       │   └── HydroponicsBay.java
+    │       └── ui/
+    │           └── DashboardController.java
+    └── saves/                          ← created automatically on first save
+```
 
 ## 🚀 Running the Project
 
-To run the Ares Base project from the terminal:
+### Step 1 — Clone the repository
 
 ```bash
-cd Aresbase
-ares
+git clone <your-repo-url>
+cd term-project-team-8/AresBase
 ```
+
+### Step 2 — Choose how to run
+
+---
+
+#### ▶ Option A: Run directly with Maven (recommended for development)
+
+No build step needed. Maven downloads JavaFX automatically on first run.
+
+```bash
+mvn javafx:run
+```
+
+That's it. Works on Windows, macOS, and Linux.
+
+---
+
+#### 📦 Option B: Build a portable jar and run it anywhere
+
+This creates a single `.jar` file that includes JavaFX inside it — no Maven needed on the target machine, just Java.
+
+**Build:**
+
+```bash
+mvn package
+```
+
+This creates `target/ares-base-1.0.jar`.
+
+**Run:**
+
+```bash
+java -jar target/ares-base-1.0.jar
+```
+
+You can copy this `.jar` to any machine that has Java 17+ and run it the same way — no JavaFX install, no Maven needed.
+
+---
+
+### First-time run note
+
+The first time you run `mvn javafx:run` or `mvn package`, Maven will download JavaFX and other dependencies (~50 MB). This only happens once — they are cached locally after that.
+
+---
+
+## 💾 Save / Load
+
+- Click **SAVE STATE** to write current resources, credits, and task queue to `saves/colony_save.csv`
+- Click **LOAD STATE** to restore a previously saved session
+- The `saves/` folder is created automatically the first time you save
+
+## 🎯 How to Play
+
+1. The simulation starts automatically — new crises appear in the queue every 2–5 seconds
+2. Click **▶ EXECUTE NEXT TASK** to process the next crisis in queue
+   - If you have enough resources: task resolves, you earn credits
+   - If you don't: task stays at the front of the queue, an error is logged
+3. When resources run low, select one from the **CARGO REPLICATOR** dropdown and click **⟳ SYNTHESIZE** (costs 50 credits)
+4. Watch the **SYSTEM LOG** for live updates and the **CRITICAL** counter in the stat bar for urgent threats
+5. Save your session anytime with **💾 SAVE STATE** and resume later with **📂 LOAD STATE**
